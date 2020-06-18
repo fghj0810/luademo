@@ -1,14 +1,6 @@
 local read_only = nil
 
-local read_only_next = nil
-local read_only___index = nil
-local read_only___newindex = nil
-local read_only___pairs = nil
-local read_only___len = nil
-local read_only___eq = nil
-local read_only___tostring = nil
-
-function read_only_next(table, index)
+local function read_only_next(table, index)
     if type(index) == "table" then
         index = index.____read_only
     end
@@ -22,7 +14,9 @@ function read_only_next(table, index)
     return nk, nv
 end
 
-function read_only___index(table, key)
+local metatable = {}
+
+function metatable.__index(table, key)
     local value = table.____read_only[key]
     if type(value) == "table" then
         value = read_only(value)
@@ -30,19 +24,19 @@ function read_only___index(table, key)
     return value
 end
 
-function read_only___newindex(table, key, value)
+function metatable.__newindex(table, key, value)
     error("inaccessible due to its readonly. key = " .. tostring(key) .. ", value = " .. tostring(value))
 end
 
-function read_only___pairs(table)
+function metatable.__pairs(table)
     return read_only_next, table.____read_only, nil
 end
 
-function read_only___len(table)
+function metatable.__len(table)
     return #table.____read_only
 end
 
-function read_only___eq(left, right)
+function metatable.__eq(left, right)
     if type(left) == "table" and left.____read_only then
         left = left.____read_only
     end
@@ -52,7 +46,7 @@ function read_only___eq(left, right)
     return left == right
 end
 
-function read_only___tostring(table)
+function metatable.__tostring(table)
     return string.format("readonly %s", table.____read_only)
 end
 
@@ -63,15 +57,7 @@ function read_only(t)
     local tmp = {
         ____read_only = t
     }
-    local mt = {
-        __index = read_only___index,
-        __newindex = read_only___newindex,
-        __pairs = read_only___pairs,
-        __len = read_only___len,
-        __eq = read_only___eq,
-        __tostring = read_only___tostring
-    }
-    setmetatable(tmp, mt)
+    setmetatable(tmp, metatable)
     return tmp
 end
 
