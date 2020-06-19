@@ -114,6 +114,32 @@ function testwrite4()
     end
 end
 
+function testinsert()
+    local data = {
+        [1] = 1,
+        [2] = 2,
+        [3] = 3,
+        [4] = 4
+    }
+
+    local data2 = read_only(data)
+
+    table.insert(data2, 5)
+end
+
+function testremove()
+    local data = {
+        [1] = 1,
+        [2] = 2,
+        [3] = 3,
+        [4] = 4
+    }
+
+    local data2 = read_only(data)
+
+    table.remove(data2, 1)
+end
+
 function  errorhandle(errobject)
     print(debug.traceback(errobject))
 end
@@ -150,3 +176,13 @@ print("---------------------")
 
 print("exec testwrite4")
 xpcall(testwrite4, errorhandle)
+
+print("---------------------")
+
+print("exec testinsert")
+xpcall(testinsert, errorhandle)
+
+print("---------------------")
+
+print("exec testremove")
+xpcall(testremove, errorhandle)
