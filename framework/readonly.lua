@@ -17,6 +17,9 @@ end
 local metatable = {}
 
 function metatable.__index(table, key)
+    if type(key) == "table" and key.____read_only then
+        key = key.____read_only
+    end
     local value = table.____read_only[key]
     if type(value) == "table" then
         value = read_only(value)

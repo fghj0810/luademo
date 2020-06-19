@@ -1,15 +1,20 @@
 local read_only = require("framework.readonly")
 
 function testread()
+    local key = {
+        a = "a"
+    }
     local data = {
         [3] = 3,
-        [4] = 4
+        [key] = "value"
     }
 
     local data2 = read_only(data)
+    local key2 = read_only(key)
 
     print("read data2[3]", data2[3])
-    print("read data2[4]", data2[4])
+    print("read data2[key]", data2[key])
+    print("read data2[key2]", data2[key2])
 end
 
 function testipairsread()
@@ -186,3 +191,8 @@ print("---------------------")
 
 print("exec testremove")
 xpcall(testremove, errorhandle)
+
+print("---------------------")
+
+print("exec testkeycompare")
+xpcall(testkeycompare, errorhandle)
