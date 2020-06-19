@@ -1,12 +1,16 @@
 local read_only = nil
 
 local function read_only_next(table, index)
-    if type(index) == "table" and table[index] == nil then
-        index = index.____read_only
+    if type(index) == "table" and index.____pairs_key then
+        local rawindex = index
+        index = index.____pairs_key
+        rawset(rawindex, "____pairs_key", nil)
     end
     local nk, nv = next(table, index)
     if type(nk) == "table" then
+        local rawkey = nk
         nk = read_only(nk)
+        rawset(nk, "____pairs_key", rawkey)
     end
     if type(nv) == "table" then
         nv = read_only(nv)
