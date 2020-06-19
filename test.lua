@@ -15,6 +15,15 @@ function testread()
     print("read data2[3]", data2[3])
     print("read data2[key]", data2[key])
     print("read data2[key2]", data2[key2])
+
+    local data3 = {
+        [key] = "key value",
+        [key2] = "key2 value"
+    }
+
+    local data4 = read_only(data3)
+    print("read data4[key]", data4[key])
+    print("read data4[key2]", data4[key2])
 end
 
 function testipairsread()
@@ -33,9 +42,12 @@ function testipairsread()
 end
 
 function testpairsread()
+    local key = {
+        a = "a"
+    }
     local data = {
-        [1] = 1,
-        [3] = 3,
+        [key] = "key",
+        [read_only(key)] = "read_only(key)",
         [4] = 4,
         [8] = 8,
         [11] = 11,

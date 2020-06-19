@@ -1,7 +1,7 @@
 local read_only = nil
 
 local function read_only_next(table, index)
-    if type(index) == "table" then
+    if index and not table[index] and type(index) == "table" and index.____read_only then
         index = index.____read_only
     end
     local nk, nv = next(table, index)
@@ -17,10 +17,10 @@ end
 local metatable = {}
 
 function metatable.__index(table, key)
-    if type(key) == "table" and key.____read_only then
-        key = key.____read_only
-    end
     local value = table.____read_only[key]
+    if value == nil and type(key) == "table" and key.____read_only then
+        value = table.____read_only[key.____read_only]
+    end
     if type(value) == "table" then
         value = read_only(value)
     end
