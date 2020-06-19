@@ -1,7 +1,7 @@
 local read_only = nil
 
 local function read_only_next(table, index)
-    if index and not table[index] and type(index) == "table" and index.____read_only then
+    if index and table[index] == nil and type(index) == "table" and index.____read_only then
         index = index.____read_only
     end
     local nk, nv = next(table, index)
