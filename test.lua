@@ -49,8 +49,6 @@ function testpairsread()
         [key] = "key",
         [read_only(key)] = "read_only(key)",
         [4] = 4,
-        [8] = 8,
-        [11] = 11,
         ["str"] = "str"
     }
 
@@ -157,6 +155,32 @@ function testremove()
     table.remove(data2, 1)
 end
 
+function testcompare()
+    local data = {
+        [1] = 1
+    }
+
+    local data2 = read_only(data)
+
+    print("data == data2", data == data2)
+    print("data2 == data", data2 == data)
+
+    local data3 = {
+        [1] = 1
+    }
+
+    print("data == data3", data == data3)
+    print("data3 == data", data3 == data)
+
+    print("data2 == data3", data2 == data3)
+    print("data3 == data2", data3 == data2)
+
+    local data4 = read_only(data3)
+
+    print("data2 == data4", data2 == data4)
+    print("data4 == data2", data4 == data2)
+end
+
 function  errorhandle(errobject)
     print(debug.traceback(errobject))
 end
@@ -203,3 +227,8 @@ print("---------------------")
 
 print("exec testremove")
 xpcall(testremove, errorhandle)
+
+print("---------------------")
+
+print("exec testcompare")
+xpcall(testcompare, errorhandle)

@@ -17,85 +17,93 @@ ipairs	3	3
 ipairs	4	4
 ---------------------
 exec testpairsread
-pairs	8	8
-pairs	str	str
-pairs	readonly table: 0x55b50dc43cf0	key
-pairs	readonly table: 0x55b50dc43cf0	read_only(key)
-pairs	11	11
+pairs	readonly table: 0x55fb259ab860	key
 pairs	4	4
+pairs	readonly table: 0x55fb259ab860	read_only(key)
+pairs	str	str
 ---------------------
 exec testwrite1
-./framework/readonly.lua:31: inaccessible due to its readonly. key = a, value = 2
+./framework/readonly.lua:35: inaccessible due to its readonly. key = a, value = 2
 stack traceback:
-	test.lua:161: in function 'errorhandle'
+	test.lua:185: in function 'errorhandle'
 	[C]: in function 'error'
-	./framework/readonly.lua:31: in metamethod '__newindex'
-	test.lua:71: in function 'testwrite1'
+	./framework/readonly.lua:35: in metamethod '__newindex'
+	test.lua:69: in function 'testwrite1'
 	[C]: in function 'xpcall'
-	test.lua:180: in main chunk
+	test.lua:204: in main chunk
 	[C]: in ?
 ---------------------
 exec testwrite2
-./framework/readonly.lua:31: inaccessible due to its readonly. key = b, value = 2
+./framework/readonly.lua:35: inaccessible due to its readonly. key = b, value = 2
 stack traceback:
-	test.lua:161: in function 'errorhandle'
+	test.lua:185: in function 'errorhandle'
 	[C]: in function 'error'
-	./framework/readonly.lua:31: in metamethod '__newindex'
-	test.lua:83: in function 'testwrite2'
+	./framework/readonly.lua:35: in metamethod '__newindex'
+	test.lua:81: in function 'testwrite2'
 	[C]: in function 'xpcall'
-	test.lua:185: in main chunk
+	test.lua:209: in main chunk
 	[C]: in ?
 ---------------------
 exec testwrite3
-a	readonly table: 0x55b50dc464b0
-./framework/readonly.lua:31: inaccessible due to its readonly. key = b, value = 2
+a	readonly table: 0x55fb259adfc0
+./framework/readonly.lua:35: inaccessible due to its readonly. key = b, value = 2
 stack traceback:
-	test.lua:161: in function 'errorhandle'
+	test.lua:185: in function 'errorhandle'
 	[C]: in function 'error'
-	./framework/readonly.lua:31: in metamethod '__newindex'
-	test.lua:97: in function 'testwrite3'
+	./framework/readonly.lua:35: in metamethod '__newindex'
+	test.lua:95: in function 'testwrite3'
 	[C]: in function 'xpcall'
-	test.lua:190: in main chunk
+	test.lua:214: in main chunk
 	[C]: in ?
 ---------------------
 exec testwrite4
-readonly table: 0x55b50dc47720	readonly table: 0x55b50dc47840
+readonly table: 0x55fb259af230	readonly table: 0x55fb259af350
 k1	k1
 b	1
-readonly table: 0x55b50dc47790	readonly table: 0x55b50dc478b0
+readonly table: 0x55fb259af2a0	readonly table: 0x55fb259af3c0
 k2	k2
 b	1
-./framework/readonly.lua:31: inaccessible due to its readonly. key = a, value = 1
+./framework/readonly.lua:35: inaccessible due to its readonly. key = a, value = 1
 stack traceback:
-	test.lua:161: in function 'errorhandle'
+	test.lua:185: in function 'errorhandle'
 	[C]: in function 'error'
-	./framework/readonly.lua:31: in metamethod '__newindex'
-	test.lua:130: in function 'testwrite4'
+	./framework/readonly.lua:35: in metamethod '__newindex'
+	test.lua:128: in function 'testwrite4'
 	[C]: in function 'xpcall'
-	test.lua:195: in main chunk
+	test.lua:219: in main chunk
 	[C]: in ?
 ---------------------
 exec testinsert
-./framework/readonly.lua:31: inaccessible due to its readonly. key = 5, value = 5
+./framework/readonly.lua:35: inaccessible due to its readonly. key = 5, value = 5
 stack traceback:
-	test.lua:161: in function 'errorhandle'
+	test.lua:185: in function 'errorhandle'
 	[C]: in function 'error'
-	./framework/readonly.lua:31: in function <./framework/readonly.lua:30>
+	./framework/readonly.lua:35: in function <./framework/readonly.lua:34>
 	[C]: in function 'table.insert'
-	test.lua:144: in function 'testinsert'
+	test.lua:142: in function 'testinsert'
 	[C]: in function 'xpcall'
-	test.lua:200: in main chunk
+	test.lua:224: in main chunk
 	[C]: in ?
 ---------------------
 exec testremove
-./framework/readonly.lua:31: inaccessible due to its readonly. key = 1, value = 2
+./framework/readonly.lua:35: inaccessible due to its readonly. key = 1, value = 2
 stack traceback:
-	test.lua:161: in function 'errorhandle'
+	test.lua:185: in function 'errorhandle'
 	[C]: in function 'error'
-	./framework/readonly.lua:31: in function <./framework/readonly.lua:30>
+	./framework/readonly.lua:35: in function <./framework/readonly.lua:34>
 	[C]: in function 'table.remove'
-	test.lua:157: in function 'testremove'
+	test.lua:155: in function 'testremove'
 	[C]: in function 'xpcall'
-	test.lua:205: in main chunk
+	test.lua:229: in main chunk
 	[C]: in ?
+---------------------
+exec testcompare
+data == data2	true
+data2 == data	true
+data == data3	false
+data3 == data	false
+data2 == data3	false
+data3 == data2	false
+data2 == data4	false
+data4 == data2	false
 ```
