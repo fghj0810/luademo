@@ -17,12 +17,12 @@ ipairs	3	3
 ipairs	4	4
 ---------------------
 exec testpairsread
-pairs	readonly table: 0x55fd69757db0	key
-pairs	readonly table: 0x55fd69757db0	read_only(key)
-pairs	11	11
-pairs	4	4
 pairs	8	8
 pairs	str	str
+pairs	readonly table: 0x55b50dc43cf0	key
+pairs	readonly table: 0x55b50dc43cf0	read_only(key)
+pairs	11	11
+pairs	4	4
 ---------------------
 exec testwrite1
 ./framework/readonly.lua:31: inaccessible due to its readonly. key = a, value = 2
@@ -47,7 +47,7 @@ stack traceback:
 	[C]: in ?
 ---------------------
 exec testwrite3
-a	readonly table: 0x55fd6975a4b0
+a	readonly table: 0x55b50dc464b0
 ./framework/readonly.lua:31: inaccessible due to its readonly. key = b, value = 2
 stack traceback:
 	test.lua:161: in function 'errorhandle'
@@ -59,10 +59,10 @@ stack traceback:
 	[C]: in ?
 ---------------------
 exec testwrite4
-readonly table: 0x55fd6975b720	readonly table: 0x55fd6975b840
+readonly table: 0x55b50dc47720	readonly table: 0x55b50dc47840
 k1	k1
 b	1
-readonly table: 0x55fd6975b790	readonly table: 0x55fd6975b8b0
+readonly table: 0x55b50dc47790	readonly table: 0x55b50dc478b0
 k2	k2
 b	1
 ./framework/readonly.lua:31: inaccessible due to its readonly. key = a, value = 1
@@ -97,13 +97,5 @@ stack traceback:
 	test.lua:157: in function 'testremove'
 	[C]: in function 'xpcall'
 	test.lua:205: in main chunk
-	[C]: in ?
----------------------
-exec testkeycompare
-attempt to call a nil value
-stack traceback:
-	test.lua:161: in function 'errorhandle'
-	[C]: in function 'xpcall'
-	test.lua:210: in main chunk
 	[C]: in ?
 ```

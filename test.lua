@@ -203,8 +203,3 @@ print("---------------------")
 
 print("exec testremove")
 xpcall(testremove, errorhandle)
-
-print("---------------------")
-
-print("exec testkeycompare")
-xpcall(testkeycompare, errorhandle)
