@@ -1,6 +1,45 @@
-local read_only = nil
+local read_only_next = nil
 
-local function read_only_next(table, index)
+local metatable = {}
+
+function metatable.__index(table, key)
+    local value = table.____raw_data[key]
+    if value == nil and type(key) == "table" and key.____raw_data then
+        value = table.____raw_data[key.____raw_data]
+    end
+    if type(value) == "table" then
+        value = read_only(value)
+    end
+    return value
+end
+
+function metatable.__newindex(table, key, value)
+    error("inaccessible due to its readonly. key = " .. tostring(key) .. ", value = " .. tostring(value))
+end
+
+function metatable.__pairs(table)
+    return read_only_next, table.____raw_data, nil
+end
+
+function metatable.__len(table)
+    return #table.____raw_data
+end
+
+function metatable.__eq(left, right)
+    if type(left) == "table" and left.____raw_data then
+        left = left.____raw_data
+    end
+    if type(right) == "table" and right.____raw_data then
+        right = right.____raw_data
+    end
+    return left == right
+end
+
+function metatable.__tostring(table)
+    return string.format("readonly %s", table.____raw_data)
+end
+
+function read_only_next(table, index)
     if type(index) == "table" and index.____pairs_key then
         local rawindex = index
         index = index.____pairs_key
@@ -18,54 +57,20 @@ local function read_only_next(table, index)
     return nk, nv
 end
 
-local metatable = {}
-
-function metatable.__index(table, key)
-    local value = table.____read_only[key]
-    if value == nil and type(key) == "table" and key.____read_only then
-        value = table.____read_only[key.____read_only]
+function read_only(data)
+    if type(data) ~= "table" or data.____raw_data then
+        return data
     end
-    if type(value) == "table" then
-        value = read_only(value)
-    end
-    return value
-end
-
-function metatable.__newindex(table, key, value)
-    error("inaccessible due to its readonly. key = " .. tostring(key) .. ", value = " .. tostring(value))
-end
-
-function metatable.__pairs(table)
-    return read_only_next, table.____read_only, nil
-end
-
-function metatable.__len(table)
-    return #table.____read_only
-end
-
-function metatable.__eq(left, right)
-    if type(left) == "table" and left.____read_only then
-        left = left.____read_only
-    end
-    if type(right) == "table" and right.____read_only then
-        right = right.____read_only
-    end
-    return left == right
-end
-
-function metatable.__tostring(table)
-    return string.format("readonly %s", table.____read_only)
-end
-
-function read_only(t)
-    if type(t) ~= "table" or t.____read_only then
-        return t
-    end
-    local tmp = {
-        ____read_only = t
+    local retValue = {
+        ____raw_data = data
     }
-    setmetatable(tmp, metatable)
-    return tmp
+    setmetatable(retValue, metatable)
+    return retValue
 end
 
-return read_only
+function read_only_cast(data)
+    if type(data) ~= "table" or not data.____raw_data then
+        return data
+    end
+    return data.____raw_data
+end

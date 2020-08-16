@@ -1,4 +1,4 @@
-local read_only = require("framework.readonly")
+require("framework.readonly")
 
 function testread()
     local key = {
