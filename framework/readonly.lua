@@ -9,7 +9,7 @@ function metatable.__index(ro_table, key)
 end
 
 function metatable.__newindex(ro_table, key, value)
-    error("inaccessible due to its readonly. key = " .. tostring(key) .. ", value = " .. tostring(value))
+    error(string.format("inaccessible due to its readonly. key = %s, value = %s", key, value))
 end
 
 function metatable.__pairs(ro_table)
